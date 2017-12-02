@@ -1,6 +1,9 @@
 #ifndef PID_H
 #define PID_H
 
+#include <vector>
+#include <cmath> 
+
 class PID {
 public:
   /*
@@ -13,9 +16,25 @@ public:
   /*
   * Coefficients
   */ 
-  double Kp;
-  double Ki;
-  double Kd;
+  //double Kp;
+  //double Ki;
+  //double Kd;
+  std::vector<double> p;
+
+  bool isInitialized;
+
+  /*
+  * Twiddle parameters
+  */ 
+  bool twiddleActive;
+  std::vector<double> dp;
+  std::vector<double> tol;
+  double aveError;
+  double it;
+  double maxIt;
+  double sumError;
+
+
 
   /*
   * Constructor
@@ -40,7 +59,12 @@ public:
   /*
   * Calculate the total PID error.
   */
-  double TotalError();
+  double TotalError(double speed);
+
+  /*
+  * Fine tune parameters.
+  */
+  //double Twiddle()
 };
 
 #endif /* PID_H */
