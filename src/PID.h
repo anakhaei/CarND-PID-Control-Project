@@ -33,6 +33,8 @@ public:
   double it;
   double maxIt;
   double sumError;
+  bool twiddleInProgress;
+  int vector_it;
 
 
 
@@ -64,7 +66,7 @@ public:
   /*
   * Fine tune parameters.
   */
-  //double Twiddle()
+  double Twiddle(double speed)
 };
 
 #endif /* PID_H */
