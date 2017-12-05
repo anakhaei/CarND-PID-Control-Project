@@ -1,11 +1,11 @@
 # Overview
-This repository contains the implementation of PID control in Udacity's Self-Driving Car Nanodegree. I implemented a PID control by following the instructions provided during the course. My implementation meets the Success Criteria. 
+This repository contains the implementation of PID control in Udacity's Self-Driving Car Nanodegree. I implemented a PID controler by following the instructions provided in the course. My implementation meets the Success Criteria. 
 
 ## Project Introduction
-The car is supposed to follow a desired path in the simulator. The PID control is using cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
+The car is supposed to follow a desired path in the simulator. The PID controler is using cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
 
 ## Success Criteria
-My implementation meets the followeing success criteria:
+My implementation meets the success criteria:
 1. The vehicle successfully drives around the track.
 2. No tire leaves the drivable portion of the track surface.
 3. The car doesn't pop up onto ledges or roll over any surfaces that would otherwise be considered unsafe (if humans were in the vehicle). 
@@ -17,13 +17,14 @@ I used docker to setup the required environment. Once run_term2_docker.sh is exe
 2. cd build
 3. cmake ..
 4. make
-5. ./particle_filter
+5. ./pid
 
-## Implementing the PID controller
-I followed the instructions provided in the course to implement the controler. I have also used some hyperparameter to fine tune my algorithms so my controller results in smooth motions:
-1. A speed factor will be applied to P, I, D factors based on the actual speed at each iteration. In fact, at each iteration, the gains are finetuned.
-2. Duirng the Error update, CTE and delta_CTE are averaged to prevent high jerk in calculated steering angle.
-3. P, I, D are optimized by using twiddle algorithms.
+## Implementation
+I followed the instructions provided in the course to implement the controler. I have also used some hyperparameter to fine tune my implementation so my controller results in smooth motions:
+
+1. A speed factor is applied to P, I, D based on the actual speed at each iteration. 
+2. CTE and delta_CTE are averaged over two itteration to prevent high jerk in calculated steering angles.
+3. P, I, D are optimized by using twiddle algorithm.
 
 ### Inputs to the controller
 Here are the inputs to the PID loop:
@@ -37,6 +38,7 @@ Here are the inputs to the PID loop:
 
 ### Tuning of the parameters:
 I tunned the parameters in 2 steps: 
+
 a. In the first step, I manually tuned the parameters based on the following instruction so the vehicle can successfully drives around the track: 
 
 1. Set all gains to zero.
@@ -46,10 +48,9 @@ a. In the first step, I manually tuned the parameters based on the following ins
 4. Set P and D to the last stable values.
 5. Increase the I gain until it brings you to the setpoint with the number of oscillations desired
 
-b. In the next step, I fine tuned the parameters by using Twiddle algorithms. I used an algorithm to evaluate the quality of each gain settings. 
+b. In the secondstep, I fine tuned the parameters by using Twiddle algorithm.
 
 ## Discussion
 
-My implementation follows the general processing flow as taught in the lessons and I was able to meet the required performance. The interesting part was finetuning the parameters. I developped an algorithm to evaluate the quality of the steering values over 1 full track. The algorithm uses steering values and steering_dot and steering_dot_dot to generate a metric that I can use during the finetuning of the parameters.
-
+My implementation follows the general processing flow as taught in the lessons and I was able to meet the required performance. The interesting part was fine-tuning the parameters. I developped an algorithm to evaluate the quality of the steering values over 1 full track. The algorithm uses steering values and steering_dot and steering_dot_dot to generate a metric that I can use twiddle algorithm.
 
