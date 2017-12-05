@@ -36,7 +36,11 @@ int main()
   uWS::Hub h;
 
   PID pid;
-  pid.Init(0.6, 8, 0.001);
+  //pid.Init(0.6, 8, 0.001); //manual tuning
+  //pid.Init(0.949, 12.279, 0.00135); // min error criteria 
+  // pid.Init(0.5109, 5.842, 0.001); // min weighted steering criteria
+  pid.Init(0.5109, 6.057, 0.0011); // min weighted steering criteria before crash
+  
   // TODO: Initialize the pid variable.
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -64,8 +68,8 @@ int main()
           * another PID controller to control the speed!
           */
           pid.UpdateError(cte);
-          //steer_value = pid.TotalError(speed);
-          steer_value = pid.Twiddle(speed);
+          steer_value = pid.TotalError(speed);
+          //steer_value = pid.Twiddle(speed);
           
 
           // DEBUG
@@ -73,10 +77,11 @@ int main()
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          if (speed < 30)
-            msgJson["throttle"] = 0.3;
-          else
-            msgJson["throttle"] = 0.0;
+          msgJson["throttle"] = 0.3;
+          // if (speed < 30)
+          //   msgJson["throttle"] = 0.3;
+          // else
+          //   msgJson["throttle"] = 0.0;
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           //std::cout << msg << std::endl;
