@@ -35,6 +35,24 @@ public:
   double sumError;
   bool twiddleInProgress;
   int vector_it;
+  bool deepEval;
+  double bestError;
+  int opt_it;
+  double sum_steering;
+  double sum_steering_dot;
+  double sum_steering_dot_dot;
+  double evaluation;
+  double best_evaluation;
+    double value;
+  double w_steering;
+  double w_steering_dot;
+  double w_steering_dot_dot;
+  double previous_steering;
+  double previous_steering_dot;
+
+ 
+
+
 
 
 
@@ -66,7 +84,11 @@ public:
   /*
   * Fine tune parameters.
   */
-  double Twiddle(double speed)
+  double Twiddle(double speed);
+
+  void resetTwiddle();
+
+  void iterateInPvector();
 };
 
 #endif /* PID_H */

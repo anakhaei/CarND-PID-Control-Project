@@ -64,15 +64,19 @@ int main()
           * another PID controller to control the speed!
           */
           pid.UpdateError(cte);
-          steer_value = pid.TotalError(speed);
+          //steer_value = pid.TotalError(speed);
+          steer_value = pid.Twiddle(speed);
+          
 
           // DEBUG
           //std::cout << " CTE: " << cte << ", current angle = " << angle << " , Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-
-          msgJson["throttle"] = 0.3;
+          if (speed < 30)
+            msgJson["throttle"] = 0.3;
+          else
+            msgJson["throttle"] = 0.0;
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           //std::cout << msg << std::endl;
